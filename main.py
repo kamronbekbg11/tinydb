@@ -1,16 +1,16 @@
 from tinydb import TinyDB 
+import requests
 
-db = TinyDB("user.json")
+db = TinyDB("random.json")
 
-user1 = {
-    "Name": "Zoyodullo",
-    "Age": 20,
-    "job": "Student"
+url = "https://randommer.io/api/Name?nameType=firstname&quantity=10"
+
+headers = {
+     "X-Api-Key": "29f760dcebe74d798990f7d51cd5e2b4"
 }
-user2 = {
-    "Name": "Dilmurod",
-    "Age": 25,
-    "job": "Student"
-}
-
-db.insert_multiple([user1,user2])
+response  = requests.get(url,headers=headers)
+r = response.json()
+for user in r:
+    db.insert({
+        "name": f"{user}"
+    })
